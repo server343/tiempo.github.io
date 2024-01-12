@@ -1,0 +1,200 @@
+/* Estilos básicos para resetear y establecer configuraciones predeterminadas */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    padding-top: 60px; /* Espacio adicional para el header fijo */
+    font-family: 'Arial', sans-serif;
+    background: #3a3a3a; /* Un color de fondo neutro */
+    color: #fff;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+/* Estilos para el encabezado y la entrada de búsqueda */
+header {
+    display: flex; /* Utiliza flexbox para alinear los elementos */
+    justify-content: center; /* Centra los elementos horizontalmente */
+    align-items: center; /* Centra los elementos verticalmente */
+    width: 100%;
+    height: 60px; /* Altura fija para el header */
+    padding: 0 10px; /* Espacio horizontal dentro del header */
+    background: rgba(0, 0, 0, 0.8);
+    text-align: center;
+    position: fixed; /* Posicionamiento fijo en la parte superior */
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+input[type="text"] {
+    width: calc(100% - 120px); /* Ajusta el ancho para dejar espacio al botón */
+    margin-right: 10px; /* Espacio entre el input y el botón */
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background: #1e81b0;
+    color: white;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background: #166f86;
+}
+
+/* Estilos para la sección del clima actual y la previsión */
+#weather-app {
+    max-width: 1000px;
+    margin: 0 auto; /* Centra el contenedor en la página */
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+#current-weather {
+    margin-bottom: 40px;
+}
+
+#current-weather h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+#current-weather p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+#temperature {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+}
+
+#temp-now {
+    font-size: 5em;
+    font-weight: bold;
+}
+
+#temp-high-low {
+    font-size: 1.5em;
+    margin-left: 20px;
+}
+
+#details {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 20px;
+}
+
+#details span {
+    flex: 1;
+    text-align: center;
+}
+
+#weather-icon {
+    font-size: 5em;
+    text-align: center;
+    margin: 20px 0;
+}
+
+#forecast {
+    border-top: 1px solid #555;
+    padding-top: 20px;
+}
+
+#forecast h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+#forecast-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.forecast-item {
+    flex: 1 1 150px;
+    margin: 10px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.forecast-item h3 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.forecast-item-icon {
+    font-size: 3em;
+}
+
+.forecast-item p {
+    font-size: 1.2em;
+    margin: 5px 0;
+}
+
+/* Estilos responsivos para pantallas más pequeñas */
+@media (max-width: 768px) {
+    header {
+        height: auto; /* Altura automática para permitir el envoltorio */
+        padding: 10px; /* Menos padding en dispositivos móviles */
+        flex-wrap: wrap; /* Permite que los elementos se apilen verticalmente en pantallas pequeñas */
+    }
+
+    input[type="text"] {
+        width: 100%; /* Aprovecha todo el ancho disponible */
+        margin-bottom: 10px; /* Espacio debajo del input cuando se apila */
+    }
+
+    button {
+        width: 100%; /* Aprovecha todo el ancho disponible */
+    }
+
+    #weather-app {
+        width: 95%; /* Un poco más de margen en dispositivos móviles */
+    }
+
+    .forecast-item {
+        width: 80%; /* Más ancho para cada elemento de previsión */
+        margin: 10px auto; /* Centra los elementos de previsión */
+    }
+}
+
+/* ... Estilos adicionales ... */
+
+footer {
+    width: 100%;
+    padding: 10px 0;
+    background: rgba(0, 0, 0, 0.8);
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    z-index: 1000;
+}
+
+footer p {
+    color: #fff;
+    opacity: 0.6;
+}

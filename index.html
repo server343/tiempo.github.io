@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>App del Tiempo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <input type="text" id="search-input" placeholder="Buscar tu ubicación..." autofocus>
+        <button id="search-button">Buscar</button>
+    </header>
+    <main id="weather-app">
+        <section id="current-weather">
+            <h1 id="location">--</h1>
+            <p id="date">--</p>
+            <div id="temperature">
+                <span id="temp-now">--°</span>
+                <span id="temp-high-low">--° / --°</span>
+            </div>
+            <div id="details">
+                <span id="wind">Viento: -- km/h</span>
+                <span id="humidity">Humedad: --%</span>
+                <span id="sunrise">Amanecer: --:--</span>
+                <span id="sunset">Atardecer: --:--</span>
+            </div>
+            <div id="weather-icon">--</div> <!-- Icono del tiempo actual -->
+        </section>
+        <section id="forecast">
+            <h2>Previsión para cinco días</h2>
+            <div id="forecast-container">
+                <!-- Los ítems de la previsión se insertarán aquí dinámicamente -->
+            </div>
+        </section>
+    </main>
+    <script src="app.js"></script>
+</body>
+</html>
