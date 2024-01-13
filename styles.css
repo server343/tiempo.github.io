@@ -198,3 +198,79 @@ footer p {
     color: #fff;
     opacity: 0.6;
 }
+
+@media only screen and (max-width: 600px) {
+    /* Ajustes para el botón de búsqueda y el campo de entrada */
+    #search-button, #search-input {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    /* Ajustes para los elementos de pronóstico */
+    .forecast-item {
+        padding: 15px;
+    }
+
+    /* Ajustes para el texto y títulos */
+    h1, h2, h3 {
+        font-size: 1.5rem; /* Tamaño de fuente más grande para títulos */
+    }
+
+    p {
+        font-size: 1rem; /* Tamaño de fuente más grande para el texto */
+    }
+
+    /* Ajustes para los contenedores y secciones */
+    .container, .section {
+        padding: 5px;
+    }
+
+    /* Ajustes para imágenes y elementos multimedia */
+    img, .media-element {
+        max-width: 100%;
+        height: auto;
+    }
+
+    /* Ajustes para menús de navegación y barras laterales */
+    .navbar, .sidebar {
+        font-size: 1.2rem;
+        padding: 10px;
+    }
+
+    /* Ajustes para los botones y enlaces interactivos */
+    .button, a {
+        padding: 15px;
+        font-size: 1.2rem;
+    }
+
+    /* Ajustes para listas y elementos de lista */
+    ul, ol {
+        margin-left: 20px;
+    }
+
+    li {
+        font-size: 1rem;
+    }
+
+    /* Ajustes para formularios y sus elementos */
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    input[type="text"], input[type="email"], select {
+        font-size: 1rem;
+        padding: 10px;
+    }
+
+    /* Ajustes para pies de página y encabezados */
+    .header, .footer {
+        text-align: center;
+        padding: 10px;
+    }
+
+    /* Ajustes para tablas y datos tabulados */
+    table {
+        font-size: 1rem;
+    }
+}
+
