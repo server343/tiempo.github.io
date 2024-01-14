@@ -2,6 +2,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchButton = document.getElementById('search-button');
     const searchInput = document.getElementById('search-input');
 
+    // Manejar el evento de cambio de tamaño
+    window.addEventListener('resize', handleResize);
+
     searchButton.addEventListener('click', () => {
         const location = searchInput.value.trim();
         if (location) {
@@ -11,7 +14,20 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Por favor, ingresa una ubicación para buscar.');
         }
     });
+
+    // Llamar a handleResize inicialmente para configurar la UI
+    handleResize();
 });
+
+function handleResize() {
+    const width = window.innerWidth;
+    // Aquí puedes ajustar elementos del DOM según el ancho de la ventana
+    if (width < 768) {
+        // Ajustes para pantallas pequeñas (móviles)
+    } else {
+        // Ajustes para pantallas más grandes
+    }
+}
 
 function fetchWeatherData(location) {
     const apiKey = 'a48dcf2fa537accdf63b97384b5ed0fc'; // Replace with your actual OpenWeatherMap API key
