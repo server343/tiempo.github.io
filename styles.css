@@ -418,3 +418,8 @@ footer a:hover {
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+input[type="text"] {
+    font-size: 16px; /* Tamaño mínimo para prevenir el zoom en iOS */
+}
+
+
