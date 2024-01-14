@@ -1,107 +1,91 @@
-/* Estilos básicos para resetear y establecer configuraciones predeterminadas */
-*,
-*::before,
-*::after {
-    box-sizing: border-box;
-}
-
-html {
-    height: 100%;
-}
-
-body {
-    margin: 0;
-    padding-top: 60px; /* Espacio adicional para el header fijo */
+/* Estilos Base */
+html, body {
     font-family: 'Arial', sans-serif;
-    background: #3a3a3a; /* Un color de fondo neutro */
-    color: #fff;
-    font-size: 16px;
-    line-height: 1.5;
+    background-color: #e3f2fd;
+    color: #424242;
+    margin: 0;
+    padding: 0;
+    transition: background-color 0.3s;
 }
 
-/* Estilos para el encabezado y la entrada de búsqueda */
+/* Encabezado */
 header {
-    display: flex; /* Utiliza flexbox para alinear los elementos */
-    justify-content: center; /* Centra los elementos horizontalmente */
-    align-items: center; /* Centra los elementos verticalmente */
-    width: 100%;
-    height: 60px; /* Altura fija para el header */
-    padding: 0 10px; /* Espacio horizontal dentro del header */
-    background: rgba(0, 0, 0, 0.8);
+    background-color: #1e88e5;
+    color: #fff;
+    padding: 10px;
     text-align: center;
-    position: fixed; /* Posicionamiento fijo en la parte superior */
+    position: fixed;
+    width: 100%;
     top: 0;
-    left: 0;
-    z-index: 1000;
+    z-index: 10;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: background-color 0.3s;
+}
+
+input[type="text"], button {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    margin: 5px;
+    transition: all 0.3s;
 }
 
 input[type="text"] {
-    width: calc(100% - 120px); /* Ajusta el ancho para dejar espacio al botón */
-    margin-right: 10px; /* Espacio entre el input y el botón */
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    font-size: 1em;
+    flex-grow: 1;
+    width: 70%;
 }
 
 button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    background: #1e81b0;
+    background-color: #42a5f5;
     color: white;
-    font-size: 1em;
     cursor: pointer;
-    transition: background 0.3s ease;
 }
 
 button:hover {
-    background: #166f86;
+    background-color: #1e88e5;
 }
 
-/* Estilos para la sección del clima actual y la previsión */
+/* Contenedor Principal */
 #weather-app {
-    max-width: 1000px;
-    margin: 0 auto; /* Centra el contenedor en la página */
+    margin-top: 60px;
     padding: 20px;
-    background: rgba(0, 0, 0, 0.7);
-    border-radius: 10px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
+/* Sección del Clima Actual */
 #current-weather {
-    margin-bottom: 40px;
+    text-align: center;
 }
 
 #current-weather h1 {
-    font-size: 2.5em;
-    margin-bottom: 10px;
+    margin: 0;
+    font-size: 2em;
 }
 
 #current-weather p {
-    font-size: 1.2em;
-    margin-bottom: 20px;
+    margin: 5px 0;
 }
 
 #temperature {
     display: flex;
-    align-items: baseline;
     justify-content: center;
+    align-items: baseline;
 }
 
 #temp-now {
-    font-size: 5em;
-    font-weight: bold;
+    font-size: 3em;
+    margin-right: 10px;
 }
 
 #temp-high-low {
-    font-size: 1.5em;
-    margin-left: 20px;
+    font-size: 1.2em;
 }
 
 #details {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-around;
     margin-top: 20px;
 }
 
@@ -110,167 +94,111 @@ button:hover {
     text-align: center;
 }
 
+/* Ícono del Clima */
 #weather-icon {
-    font-size: 5em;
-    text-align: center;
+    font-size: 4em;
     margin: 20px 0;
 }
 
+/* Sección de Previsión */
 #forecast {
-    border-top: 1px solid #555;
-    padding-top: 20px;
+    margin-top: 40px;
 }
 
 #forecast h2 {
-    font-size: 2em;
-    margin-bottom: 20px;
+    font-size: 1.5em;
+    text-align: center;
 }
 
 #forecast-container {
     display: flex;
-    justify-content: space-between;
     flex-wrap: wrap;
+    justify-content: space-around;
 }
 
 .forecast-item {
-    flex: 1 1 150px;
-    margin: 10px;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
+    flex-basis: calc(20% - 10px);
+    margin: 5px;
     text-align: center;
+    background: #e0f7fa;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .forecast-item h3 {
-    font-size: 1.5em;
-    margin-bottom: 10px;
+    margin-top: 0;
+    font-size: 1.2em;
 }
 
 .forecast-item-icon {
-    font-size: 3em;
+    font-size: 2em;
+    margin: 10px 0;
 }
 
 .forecast-item p {
-    font-size: 1.2em;
     margin: 5px 0;
+    font-size: 1em;
 }
 
-/* Estilos responsivos para pantallas más pequeñas */
-@media (max-width: 768px) {
-    header {
-        height: auto; /* Altura automática para permitir el envoltorio */
-        padding: 10px; /* Menos padding en dispositivos móviles */
-        flex-wrap: wrap; /* Permite que los elementos se apilen verticalmente en pantallas pequeñas */
-    }
-
-    input[type="text"] {
-        width: 100%; /* Aprovecha todo el ancho disponible */
-        margin-bottom: 10px; /* Espacio debajo del input cuando se apila */
-    }
-
-    button {
-        width: 100%; /* Aprovecha todo el ancho disponible */
-    }
-
-    #weather-app {
-        width: 95%; /* Un poco más de margen en dispositivos móviles */
-    }
-
-    .forecast-item {
-        width: 80%; /* Más ancho para cada elemento de previsión */
-        margin: 10px auto; /* Centra los elementos de previsión */
-    }
+/* Estilos Responsivos para Pantallas Pequeñas */
+@media screen and (max-width: 768px) {
+header {
+flex-direction: column;
+padding: 15px;
 }
 
-/* ... Estilos adicionales ... */
-
-footer {
+input[type="text"] {
     width: 100%;
-    padding: 10px 0;
-    background: rgba(0, 0, 0, 0.8);
-    text-align: center;
-    position: fixed;
-    bottom: 0;
-    z-index: 1000;
+    margin-bottom: 10px;
+}
+
+button {
+    width: 100%;
+}
+
+#weather-app {
+    margin-top: 80px;
+}
+
+#details {
+    flex-direction: column;
+}
+
+#forecast-container {
+    flex-direction: column;
+}
+
+.forecast-item {
+    flex-basis: 100%;
+    margin-bottom: 20px;
+}
+
+}
+
+/* Transiciones y Efectos Visuales */
+button, input[type="text"], .forecast-item {
+transition: all 0.3s ease;
+}
+
+button:hover, .forecast-item:hover {
+transform: scale(1.05);
+}
+
+/* Efectos adicionales y mejoras estéticas /
+/ ... Aquí puedes agregar más estilos personalizados ... */
+
+/* Footer (si se necesita) */
+footer {
+padding: 10px;
+background-color: #1e88e5;
+color: white;
+text-align: center;
+position: fixed;
+bottom: 0;
+width: 100%;
 }
 
 footer p {
-    color: #fff;
-    opacity: 0.6;
+margin: 0;
 }
-
-@media only screen and (max-width: 600px) {
-    /* Ajustes para el botón de búsqueda y el campo de entrada */
-    #search-button, #search-input {
-        width: 100%;
-        margin-bottom: 10px;
-    }
-
-    /* Ajustes para los elementos de pronóstico */
-    .forecast-item {
-        padding: 15px;
-    }
-
-    /* Ajustes para el texto y títulos */
-    h1, h2, h3 {
-        font-size: 1.5rem; /* Tamaño de fuente más grande para títulos */
-    }
-
-    p {
-        font-size: 1rem; /* Tamaño de fuente más grande para el texto */
-    }
-
-    /* Ajustes para los contenedores y secciones */
-    .container, .section {
-        padding: 5px;
-    }
-
-    /* Ajustes para imágenes y elementos multimedia */
-    img, .media-element {
-        max-width: 100%;
-        height: auto;
-    }
-
-    /* Ajustes para menús de navegación y barras laterales */
-    .navbar, .sidebar {
-        font-size: 1.2rem;
-        padding: 10px;
-    }
-
-    /* Ajustes para los botones y enlaces interactivos */
-    .button, a {
-        padding: 15px;
-        font-size: 1.2rem;
-    }
-
-    /* Ajustes para listas y elementos de lista */
-    ul, ol {
-        margin-left: 20px;
-    }
-
-    li {
-        font-size: 1rem;
-    }
-
-    /* Ajustes para formularios y sus elementos */
-    .form-group {
-        margin-bottom: 15px;
-    }
-
-    input[type="text"], input[type="email"], select {
-        font-size: 1rem;
-        padding: 10px;
-    }
-
-    /* Ajustes para pies de página y encabezados */
-    .header, .footer {
-        text-align: center;
-        padding: 10px;
-    }
-
-    /* Ajustes para tablas y datos tabulados */
-    table {
-        font-size: 1rem;
-    }
-}
-
