@@ -1,9 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const searchButton = document.getElementById('search-button');
+    const viewport = document.querySelector("meta[name=viewport]");
     const searchInput = document.getElementById('search-input');
+    const searchButton = document.getElementById('search-button');
 
-    // Manejar el evento de cambio de tamaño
-    window.addEventListener('resize', handleResize);
+    searchInput.addEventListener('focus', () => {
+        viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
+    });
+
+    searchInput.addEventListener('blur', () => {
+        viewport.setAttribute('content', 'width=device-width, initial-scale=1.0');
+    });
 
     searchButton.addEventListener('click', () => {
         const location = searchInput.value.trim();
@@ -17,20 +23,64 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Llamar a handleResize inicialmente para configurar la UI
     handleResize();
+    window.addEventListener('resize', handleResize);
 });
 
 function handleResize() {
     const width = window.innerWidth;
-    // Aquí puedes ajustar elementos del DOM según el ancho de la ventana
     if (width < 768) {
-        // Ajustes para pantallas pequeñas (móviles)
+        adjustForMobile();
     } else {
-        // Ajustes para pantallas más grandes
+        adjustForDesktop();
     }
 }
 
+function adjustForMobile() {
+    // Ejemplo de ajustes para pantallas pequeñas (móviles)
+
+    // Cambiar tamaño de fuente para mejorar la legibilidad en pantallas pequeñas
+    document.body.style.fontSize = '14px';
+
+    // Ocultar elementos que no son necesarios en dispositivos móviles
+    const elementsToHide = document.querySelectorAll('.desktop-only');
+    elementsToHide.forEach(element => {
+        element.style.display = 'none';
+    });
+
+    // Ajustar tamaños de botones o controles para ser más accesibles en pantalla táctil
+    const buttons = document.querySelectorAll('button');
+    buttons.forEach(button => {
+        button.style.padding = '12px 20px';
+    });
+
+    // Otros ajustes específicos para móviles
+    // ...
+}
+
+function adjustForDesktop() {
+    // Ejemplo de ajustes para pantallas más grandes
+
+    // Revertir el tamaño de fuente a la normalidad para pantallas de escritorio
+    document.body.style.fontSize = '16px';
+
+    // Mostrar elementos ocultados en móviles
+    const elementsToShow = document.querySelectorAll('.desktop-only');
+    elementsToShow.forEach(element => {
+        element.style.display = 'block';
+    });
+
+    // Revertir ajustes de tamaño de botones o controles
+    const buttons = document.querySelectorAll('button');
+    buttons.forEach(button => {
+        button.style.padding = '10px 15px';
+    });
+
+    // Otros ajustes específicos para escritorio
+    // ...
+}
+
 function fetchWeatherData(location) {
-    const apiKey = 'a48dcf2fa537accdf63b97384b5ed0fc'; // Replace with your actual OpenWeatherMap API key
+    const apiKey = 'a48dcf2fa537accdf63b97384b5ed0fc'; // Reemplaza con tu API key real
     const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apiKey}&units=metric&lang=es`;
     const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=${apiKey}&units=metric&lang=es`;
 
