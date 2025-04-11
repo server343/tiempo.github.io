@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Tiempo Cataluña</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>El Tiempo Cataluña</h1>
+            <div class="search-container">
+                <input type="text" id="city-input" placeholder="Buscar ciudad...">
+                <button id="search-btn"><i class="fas fa-search"></i></button>
+                <button id="location-btn" title="Usar mi ubicación"><i class="fas fa-location-arrow"></i></button>
+            </div>
+            <div id="error-message" class="error-message hidden"></div>
+        </header>
+
+        <main>
+            <div id="loading" class="loading-container">
+                <div class="loading-spinner"></div>
+                <p>Cargando datos meteorológicos...</p>
+            </div>
+
+            <div id="weather-content" class="weather-content hidden">
+                <div class="current-weather">
+                    <div class="weather-info">
+                        <h2 id="location">Barcelona, Cataluña</h2>
+                        <p id="date">Cargando fecha...</p>
+                        <div class="temp-container">
+                            <span id="temperature">22</span>
+                            <span class="degree">°C</span>
+                        </div>
+                        <p id="weather-description">Soleado</p>
+                    </div>
+                    <div class="weather-icon">
+                        <i class="fas fa-sun"></i>
+                    </div>
+                </div>
+
+                <div class="weather-details">
+                    <div class="detail-item">
+                        <i class="fas fa-wind"></i>
+                        <div class="detail-info">
+                            <span class="detail-label">Viento</span>
+                            <span id="wind-speed">12 km/h</span>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-tint"></i>
+                        <div class="detail-info">
+                            <span class="detail-label">Humedad</span>
+                            <span id="humidity">65%</span>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-temperature-high"></i>
+                        <div class="detail-info">
+                            <span class="detail-label">Sensación</span>
+                            <span id="feels-like">24°C</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Weather Map Section -->
+                <div class="weather-map-section">
+                    <h3>Mapa Meteorológico</h3>
+                    <div class="map-controls">
+                        <div class="map-layers">
+                            <button class="map-layer-btn active" data-layer="radar">Radar</button>
+                            <button class="map-layer-btn" data-layer="precipitation">Precipitación</button>
+                            <button class="map-layer-btn" data-layer="temp">Temperatura</button>
+                            <button class="map-layer-btn" data-layer="clouds">Nubes</button>
+                            <button class="map-layer-btn" data-layer="wind">Viento</button>
+                        </div>
+                    </div>
+                    <div id="weather-map"></div>
+                    <div id="map-legend" class="map-legend">
+                        <div class="legend-title">Leyenda</div>
+                        <div id="legend-content" class="legend-content"></div>
+                    </div>
+                </div>
+
+                <div class="forecast">
+                    <h3>Pronóstico para los próximos días</h3>
+                    <div class="forecast-container" id="forecast-container">
+                        <!-- Forecast items will be added here by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>© 2025 El Tiempo Cataluña | Datos meteorológicos de OpenWeatherMap</p>
+        </footer>
+    </div>
+
+    <!-- Modal para detalles horarios -->
+    <div id="hourly-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="window-controls">
+                    <div class="control close-btn" id="modal-close-btn"></div>
+                </div>
+                <h3 id="modal-title">Pronóstico por Horas</h3>
+            </div>
+            <div class="modal-body">
+                <div class="hourly-date" id="hourly-date">Fecha</div>
+                <div class="temperature-graph-container">
+                    <canvas id="temperature-graph" height="200"></canvas>
+                    <div id="graph-tooltip" class="graph-tooltip hidden"></div>
+                </div>
+                <div class="hourly-forecast-container" id="hourly-forecast-container">
+                    <!-- Hourly forecast items will be added here by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="script.js"></script>
+</body>
+</html>
