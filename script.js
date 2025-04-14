@@ -17,6 +17,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const hourlyDate = document.getElementById('hourly-date');
     const hourlyForecastContainer = document.getElementById('hourly-forecast-container');
     const graphTooltip = document.getElementById('graph-tooltip');
+    const themeToggleBtn = document.getElementById('theme-toggle-btn');
+    const currentYearElement = document.getElementById('current-year');
     
     // Map variables
     let map = null;
@@ -27,9 +29,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // Store forecast data
     let forecastData = null;
     let currentHourlyData = null;
+    let pointCoordinates = []; // Store point coordinates for touch detection
     
-    // Set current date
+    // Set current date and year
     updateDate();
+    currentYearElement.textContent = new Date().getFullYear();
+    
+    // Check for saved theme preference
+    initTheme();
     
     // Add event listeners
     searchBtn.addEventListener('click', function() {
@@ -54,6 +61,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     locationBtn.addEventListener('click', function() {
         getUserLocation();
+    });
+    
+    // Theme toggle button event listener
+    themeToggleBtn.addEventListener('click', function() {
+        toggleTheme();
     });
     
     // Map layer buttons event listeners
@@ -97,6 +109,49 @@ document.addEventListener('DOMContentLoaded', function() {
         const now = new Date();
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         document.getElementById('date').textContent = now.toLocaleDateString('es-ES', options);
+    }
+    
+    function initTheme() {
+        // Check if user has a saved preference
+        const savedTheme = localStorage.getItem('theme');
+        
+        if (savedTheme) {
+            // Apply saved theme
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        } else {
+            // Check if user prefers dark mode
+            const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            if (prefersDarkMode) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+    }
+    
+    function toggleTheme() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        
+        // Apply new theme
+        document.documentElement.setAttribute('data-theme', newTheme);
+        
+        // Save preference
+        localStorage.setItem('theme', newTheme);
+        
+        // Update map if it exists
+        if (map) {
+            setTimeout(() => {
+                map.invalidateSize();
+                
+                // Update the active layer to refresh with new theme colors
+                const activeLayer = document.querySelector('.map-layer-btn.active').getAttribute('data-layer');
+                updateMapLayer(activeLayer);
+            }, 300);
+        }
     }
     
     function getUserLocation() {
@@ -405,7 +460,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Draw axes
         ctx.beginPath();
-        ctx.strokeStyle = '#aaa';
+        ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--graph-axis').trim();
         ctx.lineWidth = 1;
         ctx.moveTo(padding, padding);
         ctx.lineTo(padding, canvas.height - padding);
@@ -414,7 +469,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Draw temperature line
         ctx.beginPath();
-        ctx.strokeStyle = '#3498db';
+        ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--graph-line').trim();
         ctx.lineWidth = 3;
         ctx.lineJoin = 'round';
         
@@ -433,7 +488,7 @@ document.addEventListener('DOMContentLoaded', function() {
         ctx.stroke();
         
         // Store point coordinates for hover detection
-        const pointCoordinates = [];
+        pointCoordinates = [];
         
         // Draw temperature points and labels
         hourlyData.forEach((item, index) => {
@@ -446,12 +501,12 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Draw point
             ctx.beginPath();
-            ctx.fillStyle = '#3498db';
+            ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--graph-point').trim();
             ctx.arc(x, y, 5, 0, Math.PI * 2);
             ctx.fill();
             
             // Draw temperature label
-            ctx.fillStyle = '#333';
+            ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--graph-text').trim();
             ctx.font = '12px Arial';
             ctx.textAlign = 'center';
             ctx.fillText(`${temp}°C`, x, y - 15);
@@ -463,7 +518,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Draw y-axis labels (temperature)
         ctx.textAlign = 'right';
-        ctx.fillStyle = '#666';
+        ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--tooltip-label').trim();
         
         // Draw min and max temperature on y-axis
         ctx.fillText(`${minTemp}°C`, padding - 10, canvas.height - padding);
@@ -472,7 +527,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Draw title
         ctx.textAlign = 'center';
         ctx.font = 'bold 14px Arial';
-        ctx.fillStyle = '#3498db';
+        ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--primary-color').trim();
         ctx.fillText('Temperatura por Hora', canvas.width / 2, 20);
         
         // Add mouse move event for tooltip
@@ -497,6 +552,36 @@ document.addEventListener('DOMContentLoaded', function() {
                 hideGraphTooltip();
             }
         });
+        
+        // Add touch event for mobile devices
+        canvas.addEventListener('touchstart', function(e) {
+            e.preventDefault(); // Prevent scrolling when touching the canvas
+            if (e.touches.length > 0) {
+                const touch = e.touches[0];
+                const rect = canvas.getBoundingClientRect();
+                const touchX = touch.clientX - rect.left;
+                const touchY = touch.clientY - rect.top;
+                
+                // Check if touch is over any point
+                let touchedPoint = null;
+                for (const point of pointCoordinates) {
+                    const distance = Math.sqrt(Math.pow(touchX - point.x, 2) + Math.pow(touchY - point.y, 2));
+                    if (distance <= 20) { // Larger detection radius for touch
+                        touchedPoint = point;
+                        break;
+                    }
+                }
+                
+                if (touchedPoint) {
+                    showGraphTooltip(touchedPoint, touch.clientX, touch.clientY);
+                } else {
+                    hideGraphTooltip();
+                }
+            }
+        }, { passive: false });
+        
+        // Hide tooltip when touch ends
+        canvas.addEventListener('touchend', hideGraphTooltip);
         
         // Hide tooltip when mouse leaves canvas
         canvas.addEventListener('mouseleave', hideGraphTooltip);
@@ -538,18 +623,30 @@ document.addEventListener('DOMContentLoaded', function() {
         const tooltipRect = graphTooltip.getBoundingClientRect();
         const canvasRect = document.getElementById('temperature-graph').getBoundingClientRect();
         
+        // Check if we're on a mobile device (smaller screen)
+        const isMobile = window.innerWidth <= 768;
+        
         // Calculate position to keep tooltip within viewport
-        let left = clientX - canvasRect.left;
-        let top = clientY - canvasRect.top - tooltipRect.height - 10;
+        let left, top;
         
-        // Adjust if tooltip would go off the right edge
-        if (left + tooltipRect.width > canvasRect.width) {
-            left = canvasRect.width - tooltipRect.width;
-        }
-        
-        // Adjust if tooltip would go off the top
-        if (top < 0) {
-            top = clientY - canvasRect.top + 20; // Show below cursor instead
+        if (isMobile) {
+            // On mobile, position the tooltip centered at the bottom of the canvas
+            left = (canvasRect.width - tooltipRect.width) / 2;
+            top = canvasRect.height - tooltipRect.height - 10;
+        } else {
+            // On desktop, position near the cursor
+            left = clientX - canvasRect.left;
+            top = clientY - canvasRect.top - tooltipRect.height - 10;
+            
+            // Adjust if tooltip would go off the right edge
+            if (left + tooltipRect.width > canvasRect.width) {
+                left = canvasRect.width - tooltipRect.width;
+            }
+            
+            // Adjust if tooltip would go off the top
+            if (top < 0) {
+                top = clientY - canvasRect.top + 20; // Show below cursor instead
+            }
         }
         
         // Set tooltip position
@@ -575,6 +672,14 @@ document.addEventListener('DOMContentLoaded', function() {
             hourlyModal.classList.add('show');
         }, 10);
         document.body.style.overflow = 'hidden'; // Prevent scrolling
+        
+        // On iOS Safari, we need to handle the viewport differently
+        if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
+            document.documentElement.style.position = 'fixed';
+            document.documentElement.style.width = '100%';
+            document.documentElement.style.height = '100%';
+            document.documentElement.style.overflow = 'hidden';
+        }
     }
     
     function closeModal() {
@@ -583,11 +688,16 @@ document.addEventListener('DOMContentLoaded', function() {
             hourlyModal.classList.add('hidden');
         }, 300);
         document.body.style.overflow = ''; // Restore scrolling
+        
+        // Restore normal scrolling on iOS Safari
+        if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
+            document.documentElement.style.position = '';
+            document.documentElement.style.width = '';
+            document.documentElement.style.height = '';
+            document.documentElement.style.overflow = '';
+        }
     }
     
-    // Declare L before using it
-    let L;
-
     function initMap() {
         // Create map
         map = L.map('weather-map').setView(currentCoordinates, currentZoom);
@@ -610,6 +720,37 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(() => {
             map.invalidateSize();
         }, 100);
+        
+        // Add event listener for device orientation change
+        window.addEventListener('orientationchange', function() {
+            setTimeout(() => {
+                if (map) {
+                    map.invalidateSize();
+                }
+            }, 200);
+        });
+        
+        // Disable map drag when touching the forecast items on mobile
+        if (isMobileDevice()) {
+            const forecastItems = document.querySelectorAll('.forecast-item');
+            forecastItems.forEach(item => {
+                item.addEventListener('touchstart', function(e) {
+                    map.dragging.disable();
+                });
+                
+                item.addEventListener('touchend', function(e) {
+                    setTimeout(() => {
+                        map.dragging.enable();
+                    }, 100);
+                });
+            });
+        }
+    }
+    
+    function isMobileDevice() {
+        return (window.innerWidth <= 768) || 
+               (navigator.maxTouchPoints > 0) || 
+               (navigator.msMaxTouchPoints > 0);
     }
     
     function updateMapView() {
@@ -635,25 +776,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    let animationTimer;
-    let animationPosition = 0;
-    let radarFrames = [];
-
     function updateMapLayer(layerType) {
-        // Stop any running animations
-        if (animationTimer) {
-            clearInterval(animationTimer);
-            animationTimer = null;
-        }
-        
         // Remove current tile layer if exists
         if (currentTileLayer) {
             map.removeLayer(currentTileLayer);
             currentTileLayer = null;
         }
-        
-        // Clear existing radar frames
-        radarFrames = [];
         
         // Update legend
         updateLegend(layerType);
