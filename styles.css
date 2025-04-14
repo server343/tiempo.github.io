@@ -1,4 +1,5 @@
 :root {
+    /* Tema claro (por defecto) */
     --primary-color: #3498db;
     --secondary-color: #2980b9;
     --accent-color: #f39c12;
@@ -12,6 +13,45 @@
     --close-btn-color: #ff5f56;
     --minimize-btn-color: #ffbd2e;
     --maximize-btn-color: #27c93f;
+    --input-background: #fff;
+    --border-color: #e0e0e0;
+    --forecast-item-bg: rgba(52, 152, 219, 0.1);
+    --forecast-item-hover: rgba(52, 152, 219, 0.2);
+    --hourly-item-bg: rgba(52, 152, 219, 0.1);
+    --tooltip-text: #333;
+    --tooltip-label: #777;
+    --graph-line: #3498db;
+    --graph-point: #3498db;
+    --graph-text: #333;
+    --graph-axis: #aaa;
+    --modal-border: #eee;
+    --legend-bg: rgba(255, 255, 255, 0.9);
+}
+
+[data-theme="dark"] {
+    /* Tema oscuro */
+    --primary-color: #4cc9f0;
+    --secondary-color: #4361ee;
+    --accent-color: #f1c40f;
+    --text-color: #e6e6e6;
+    --light-text: #f5f5f5;
+    --background-color: #1a1a2e;
+    --card-background: #16213e;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    --error-color: #ff6b6b;
+    --input-background: #242442;
+    --border-color: #2a3a5a;
+    --forecast-item-bg: rgba(76, 201, 240, 0.1);
+    --forecast-item-hover: rgba(76, 201, 240, 0.2);
+    --hourly-item-bg: rgba(76, 201, 240, 0.1);
+    --tooltip-text: #e6e6e6;
+    --tooltip-label: #aaa;
+    --graph-line: #4cc9f0;
+    --graph-point: #4cc9f0;
+    --graph-text: #e6e6e6;
+    --graph-axis: #666;
+    --modal-border: #2a3a5a;
+    --legend-bg: rgba(22, 33, 62, 0.9);
 }
 
 * {
@@ -19,6 +59,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
 }
 
 body {
@@ -26,6 +67,8 @@ body {
     color: var(--text-color);
     line-height: 1.6;
     font-size: 16px;
+    overflow-x: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .container {
@@ -41,6 +84,7 @@ header {
     align-items: center;
     margin-bottom: 30px;
     text-align: center;
+    position: relative;
 }
 
 h1 {
@@ -69,6 +113,9 @@ h3 {
     border-radius: var(--border-radius) 0 0 var(--border-radius);
     font-size: 1rem;
     outline: none;
+    background-color: var(--input-background);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 #search-btn, #location-btn {
@@ -94,6 +141,43 @@ h3 {
 
 #search-btn:hover, #location-btn:hover {
     background-color: var(--secondary-color);
+}
+
+.theme-toggle {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+#theme-toggle-btn {
+    background-color: transparent;
+    border: none;
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+#theme-toggle-btn:hover {
+    color: var(--secondary-color);
+    transform: scale(1.1);
+}
+
+#theme-toggle-btn .fa-sun {
+    display: none;
+}
+
+[data-theme="dark"] #theme-toggle-btn .fa-moon {
+    display: none;
+}
+
+[data-theme="dark"] #theme-toggle-btn .fa-sun {
+    display: inline-block;
 }
 
 .error-message {
@@ -122,6 +206,11 @@ h3 {
     margin-bottom: 15px;
 }
 
+[data-theme="dark"] .loading-spinner {
+    border-color: rgba(255, 255, 255, 0.1);
+    border-top-color: var(--primary-color);
+}
+
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
@@ -145,6 +234,7 @@ h3 {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .weather-info {
@@ -159,7 +249,7 @@ h3 {
 }
 
 #date {
-    color: #777;
+    color: var(--tooltip-label);
     margin-bottom: 20px;
     font-size: 1rem;
 }
@@ -207,6 +297,7 @@ h3 {
     box-shadow: var(--shadow);
     display: flex;
     align-items: center;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .detail-item i {
@@ -224,7 +315,7 @@ h3 {
 
 .detail-label {
     font-size: 0.9rem;
-    color: #777;
+    color: var(--tooltip-label);
 }
 
 /* Weather Map Styles */
@@ -234,6 +325,7 @@ h3 {
     padding: 30px;
     box-shadow: var(--shadow);
     margin-bottom: 30px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .map-controls {
@@ -259,7 +351,7 @@ h3 {
 }
 
 .map-layer-btn:hover {
-    background-color: rgba(52, 152, 219, 0.1);
+    background-color: var(--forecast-item-hover);
 }
 
 .map-layer-btn.active {
@@ -278,11 +370,12 @@ h3 {
 /* Map Legend */
 .map-legend {
     margin-top: 15px;
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: var(--legend-bg);
     border-radius: var(--border-radius);
     padding: 10px;
     box-shadow: var(--shadow);
     max-width: 100%;
+    transition: background-color 0.3s ease;
 }
 
 .legend-title {
@@ -329,6 +422,7 @@ h3 {
     background-color: var(--card-background) !important;
     color: var(--primary-color) !important;
     border: none !important;
+    transition: background-color 0.3s ease, color 0.3s ease !important;
 }
 
 .leaflet-control-zoom a:hover {
@@ -336,8 +430,9 @@ h3 {
 }
 
 .leaflet-control-attribution {
-    background-color: rgba(255, 255, 255, 0.7) !important;
+    background-color: var(--legend-bg) !important;
     font-size: 10px !important;
+    transition: background-color 0.3s ease, color 0.3s ease !important;
 }
 
 .forecast {
@@ -346,6 +441,7 @@ h3 {
     padding: 30px;
     box-shadow: var(--shadow);
     margin-bottom: 30px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .forecast h3 {
@@ -359,17 +455,17 @@ h3 {
 }
 
 .forecast-item {
-    background-color: rgba(52, 152, 219, 0.1);
+    background-color: var(--forecast-item-bg);
     border-radius: var(--border-radius);
     padding: 15px;
     text-align: center;
-    transition: transform 0.3s;
+    transition: transform 0.3s, background-color 0.3s;
     cursor: pointer;
 }
 
 .forecast-item:hover {
     transform: translateY(-5px);
-    background-color: rgba(52, 152, 219, 0.2);
+    background-color: var(--forecast-item-hover);
 }
 
 .forecast-day {
@@ -390,7 +486,7 @@ h3 {
 
 .forecast-desc {
     font-size: 0.9rem;
-    color: #666;
+    color: var(--tooltip-label);
     margin-top: 5px;
 }
 
@@ -425,6 +521,7 @@ h3 {
     overflow-y: auto;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     animation: modalFadeIn 0.3s;
+    transition: background-color 0.3s ease;
 }
 
 @keyframes modalFadeIn {
@@ -440,10 +537,11 @@ h3 {
 
 .modal-header {
     padding: 15px 20px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--modal-border);
     display: flex;
     align-items: center;
     position: relative;
+    transition: border-color 0.3s ease;
 }
 
 /* Actualización de los estilos de los controles de ventana */
@@ -461,14 +559,6 @@ h3 {
 
 .close-btn {
     background-color: var(--close-btn-color);
-}
-
-.minimize-btn {
-    background-color: var(--minimize-btn-color);
-}
-
-.maximize-btn {
-    background-color: var(--maximize-btn-color);
 }
 
 .modal-header h3 {
@@ -552,10 +642,11 @@ h3 {
 }
 
 .hourly-item {
-    background-color: rgba(52, 152, 219, 0.1);
+    background-color: var(--hourly-item-bg);
     border-radius: var(--border-radius);
     padding: 12px;
     text-align: center;
+    transition: background-color 0.3s ease;
 }
 
 .hourly-time {
@@ -574,7 +665,7 @@ h3 {
 
 .hourly-desc {
     font-size: 0.8rem;
-    color: #666;
+    color: var(--tooltip-label);
     margin-top: 5px;
 }
 
@@ -592,13 +683,13 @@ h3 {
 }
 
 .hourly-detail-label {
-    color: #777;
+    color: var(--tooltip-label);
 }
 
 footer {
     text-align: center;
     padding: 20px 0;
-    color: #777;
+    color: var(--tooltip-label);
     font-size: 0.9rem;
 }
 
@@ -715,6 +806,15 @@ footer {
     
     .modal-content {
         width: 95%;
+    }
+    
+    .theme-toggle {
+        top: 5px;
+        right: 5px;
+    }
+    
+    #theme-toggle-btn {
+        font-size: 1.2rem;
     }
 }
 
@@ -862,7 +962,12 @@ footer {
     
     /* Add active state for touch */
     .forecast-item:active {
-        background-color: rgba(52, 152, 219, 0.2);
+        background-color: var(--forecast-item-hover);
+    }
+    
+    #theme-toggle-btn {
+        min-height: 44px;
+        min-width: 44px;
     }
 }
 
@@ -874,86 +979,30 @@ footer {
     }
 }
 
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-    :root {
-        --background-color: #1a1a2e;
-        --card-background: #16213e;
-        --text-color: #e6e6e6;
-        --primary-color: #4cc9f0;
-        --secondary-color: #4361ee;
-        --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-        --error-color: #ff6b6b;
+/* Graph tooltip for mobile */
+@media (max-width: 480px) {
+    .graph-tooltip {
+        max-width: 160px;
+        font-size: 10px;
+        padding: 8px;
     }
     
-    #city-input {
-        background-color: #242442;
-        color: #e6e6e6;
-        border-color: #4cc9f0;
+    .temperature-graph-container {
+        height: 180px;
     }
-    
-    #date, .detail-label {
-        color: #aaa;
-    }
-    
-    .forecast-item {
-        background-color: rgba(76, 201, 240, 0.1);
-    }
-    
-    .forecast-desc {
-        color: #aaa;
-    }
-    
-    footer {
-        color: #aaa;
-    }
-    
-    .loading-spinner {
-        border-color: rgba(255, 255, 255, 0.1);
-        border-top-color: var(--primary-color);
-    }
-    
-    .map-layer-btn {
-        background-color: #242442;
-        color: #e6e6e6;
-        border-color: #4cc9f0;
-    }
-    
-    .map-layer-btn:hover {
-        background-color: rgba(76, 201, 240, 0.1);
-    }
-    
-    .leaflet-control-zoom a {
-        background-color: #16213e !important;
-        color: #4cc9f0 !important;
-    }
-    
-    .leaflet-control-zoom a:hover {
-        background-color: #242442 !important;
-    }
-    
-    .leaflet-control-attribution {
-        background-color: rgba(22, 33, 62, 0.7) !important;
-        color: #aaa !important;
-    }
-    
-    .map-legend {
-        background-color: rgba(22, 33, 62, 0.9);
-    }
-    
-    .hourly-item {
-        background-color: rgba(76, 201, 240, 0.1);
-    }
-    
-    .hourly-desc {
-        color: #aaa;
-    }
-    
-    .modal-content {
-        background-color: #16213e;
-    }
-    
-    .modal-header {
-        border-bottom-color: #2a3a5a;
-    }
+}
+
+/* Fix for iOS Safari 100vh issue */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    height: -webkit-fill-available;
+}
+
+/* Improve scrolling on mobile */
+.modal-content {
+    -webkit-overflow-scrolling: touch;
 }
